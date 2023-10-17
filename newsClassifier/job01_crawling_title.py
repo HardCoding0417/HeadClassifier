@@ -24,15 +24,15 @@ service = ChromeService(executable_path=ChromeDriverManager().install())
 # chrome driver
 driver = webdriver.Chrome(service=service, options=options)  # <- options로 변경
 
-pages = [3]
-titles=[]
+category = ['Normal', 'News', 'Review', 'Tip', 'Mod']
 
-df_titles = pd.DataFrame()
 
 def func(t):
-    category = ['Normal', 'News', 'Review', 'Tip', 'Mod']
+    df_titles = pd.DataFrame()
+    titles = []
+    pages = [1]
     category_list = [0, 330, 20, 340, 350]
-    for j in category_list[t]:
+    for j in category_list:
         url = 'https://gall.dcinside.com/mgallery/board/lists/?id=mouse&sort_type=N&search_head={}&page=1'.format(j)
         # print(url)
         for k in range(1, pages[0]+1):
@@ -42,7 +42,7 @@ def func(t):
             for i in range(2, 47):
                 try:
                     title = driver.find_element('xpath',
-                                                '//*[@id="container"]/section[1]/article[2]/div[2]/table/tbody/tr[{}]/td[3]/a[1]'.format(i)).test
+                                                '//*[@id="container"]/section[1]/article[2]/div[2]/table/tbody/tr[{}]/td[3]/a[1]'.format(i)).text
                     # title = re.compile('').sub('', title))
 
                     titles.append(title)
@@ -50,7 +50,7 @@ def func(t):
                     print("error {}".format(i))
                 df_section_title = pd.DataFrame(titles, columns=['titles'])
                 df_titles = pd.concat([df_titles, df_section_title], ignore_index=True)
-                df_titles.to_csv('../crawling_data/head_.csv', index=False)
+                df_titles.to_csv('../data/head_.csv', index=False)
                 titles = []
 
     for i in range(1, 2):
@@ -64,9 +64,7 @@ def func(t):
 
     return 0
 
-
-list = [0,1,2]
-func(list[0])
+func(0)
 
 
 
