@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+import csv
 
 import pandas as pd
 import datetime
@@ -18,25 +19,38 @@ def scrape(links):
         nickname = soup.select('span.nickname em')
         main_txt = soup.select('div.write_div')
 
-        # mongoDB에도 적합하도록 딕셔너리 형태로 저장
-        record = {
-            '글 번호': gall_num.text if gall_num else '',
-            '말머리': headtext.text if headtext else '',
-            '제목': title.text if title else '',
-            '닉네임': nickname.text if nickname else '',
-            '본문': main_txt.text if main_txt else '',
-            '글 링크': link
-        }
-        data.append(record)
-        sleep(0.5)
-    return data
+        for gall_num, headtext, title, nickname, main_txt in zip(gall_num, headtext, title, nickname,main_txt):
+            # mongoDB에도 적합하도록 딕셔너리 형태로 저장
+            gall_post = {
+                '글 번호': gall_num.text,
+                '말머리': headtext.text,
+                '제목': title.text,
+                '닉네임': nickname.text,
+                '본문': main_txt.text,
+                '글 링크': link
+            }
+            data.append(gall_post)
+
+    keys = data[0].keys()
+    with open('data.csv', 'w', newline='', encoding='UTF-8') as output_file:  # 'w'를 사용하여 파일을 쓰기 모드로 엽니다.
+        dict_writer = csv.DictWriter(output_file, fieldnames=keys)
+        dict_writer.writeheader()  # 헤더를 한 번만 씁니다.
+        for gall_post in data:  # 각 딕셔너리에 대해
+            dict_writer.writerow(gall_post)  # 한 줄씩 씁니다.
+
+    # with open('data.csv', 'a', newline='') as output_file:
+    #     dict_writer = csv.DictWriter(output_file, fieldnames=keys)
+    #     dict_writer.writeheader()
+    #     dict_writer.writerow(gall_post)
+
 
 user_agent = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.60"}
-
 service = Service(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service)
+lis = ['https://gall.dcinside.com/mgallery/board/view/?id=mouse&no=654046&page=4', 'https://gall.dcinside.com/mgallery/board/view/?id=mouse&no=654019&page=4']
+print(scrape(lis))
 
-#
+
 # for i in range(1, 2):
 #     driver.get('https://gall.dcinside.com/mgallery/board/lists/?id=mouse&page={}'.format(i))
 #     page_source = driver.page_source
