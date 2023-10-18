@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from webdriver_manager.chrome import ChromeDriverManager
 import time
+import csv
 
 
 def func(category_num, page_num, driver):
@@ -30,6 +31,13 @@ def func(category_num, page_num, driver):
                 print(f"Error {i}: {str(e)}")
 
     return url_list
+
+def save_urls_to_csv(url_list, filename):
+    with open(filename, 'w', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile)
+        csv_writer.writerow(['URL'])
+        for url in url_list:
+            csv_writer.writerow([url])
 
 if __name__ == '__main__':
     url = 'https://gall.dcinside.com/mgallery/board/lists/?id=mouse&sort_type=N&search_head=0&page=1'
