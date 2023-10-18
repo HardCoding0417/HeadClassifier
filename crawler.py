@@ -8,7 +8,7 @@ import pandas as pd
 import datetime
 from time import sleep
 
-def scrape(links):
+def scrape(links, driver):
     data = []
 
     # 링크 리스트를 순회하며 파싱. text를 따옴
@@ -40,7 +40,7 @@ def scrape(links):
         dict_writer.writeheader()
         for gall_post in data:
             dict_writer.writerow(gall_post)
-    sleep(0.5)
+    sleep(1)
 
 
 

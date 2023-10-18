@@ -9,12 +9,7 @@ import time
 import datetime
 from bs4 import BeautifulSoup
 
-
-
-
 def func(t):
-    df_titles = pd.DataFrame()
-    titles = []
     pages = [1]
     category_list = [0, 330, 20, 340, 350]
     for j in category_list:
@@ -32,12 +27,10 @@ def func(t):
                     # title = re.compile('').sub('', title))
 
                     titles.append(title)
+
                 except:
                     print("error {}".format(i))
-                df_section_title = pd.DataFrame(titles, columns=['titles'])
-                df_titles = pd.concat([df_titles, df_section_title], ignore_index=True)
-                df_titles.to_csv('../data/head_.csv', index=False)
-                titles = []
+                time.sleep(0.5)
 
     for i in range(1, 2):
         driver.get('https://gall.dcinside.com/mgallery/board/lists/?id=mouse&page={}'.format(i))
@@ -46,7 +39,6 @@ def func(t):
         links = soup.select('a[href^="/mgallery/board/view/"]')
         for link in links:
             print(f'글 링크: {link}')
-        time.sleep(0.5)
 
     return 0
 
