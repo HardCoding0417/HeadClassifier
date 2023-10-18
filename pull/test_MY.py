@@ -2,7 +2,7 @@ import pandas as pd
 import glob
 import datetime
 
-data_path = glob.glob('./crawling_data/*.csv')
+data_path = glob.glob('../MoonJeangHwan/*.csv')
 print(data_path)
 
 df = pd.DataFrame()

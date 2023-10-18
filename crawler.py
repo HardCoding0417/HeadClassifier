@@ -14,6 +14,7 @@ def scrape(links, driver):
     # 링크 리스트를 순회하며 파싱. text를 따옴
     for link in links:
         driver.get(link)
+        sleep(2)
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         gall_num = soup.select('td.gall_num')
         headtext = soup.select('span.title_headtext')
@@ -40,7 +41,6 @@ def scrape(links, driver):
         dict_writer.writeheader()
         for gall_post in data:
             dict_writer.writerow(gall_post)
-    sleep(2)
 
 
 
@@ -49,10 +49,9 @@ if __name__ == '__main__':
                                "(KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.60"}
     service = Service(executable_path=ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service)
-    lis = ['https://gall.dcinside.com/mgallery/board/view/?id=mouse&no=654046&page=4',
-           'https://gall.dcinside.com/mgallery/board/view/?id=mouse&no=654019&page=4',
-           'https://gall.dcinside.com/mgallery/board/view/?id=mouse&no=653912&page=13',
-            'https://gall.dcinside.com/mgallery/board/view/?id=mouse&no=653910&page=13']
+    lis = ['https://gall.dcinside.com/mgallery/board/view/?id=mouse&no=654581&page=1',
+           'https://gall.dcinside.com/mgallery/board/view/?id=mouse&no=654579&page=1',
+           'https://gall.dcinside.com/mgallery/board/view/?id=mouse&no=654548&page=1']
     print(scrape(lis, driver))
 
 
