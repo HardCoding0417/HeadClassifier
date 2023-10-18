@@ -13,7 +13,10 @@ def scrape(links, driver):
 
     # 링크 리스트를 순회하며 파싱. text를 따옴
     for link in links:
-        driver.get(link)
+        try:
+            driver.get(link)
+        except:
+            print("링크에 접속하지 못했습니다.")
         sleep(2)
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         gall_num = soup.select('td.gall_num')
