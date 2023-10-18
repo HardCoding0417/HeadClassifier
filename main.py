@@ -5,16 +5,18 @@ from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 import datetime
 from time import sleep
-import crawler
+from crawler import scrape
+from job1_1 import func
 
-user_agent = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.60"}
-
+user_agent = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                           "Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.60"}
 service = Service(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service)
 
-links = []
-
 if __name__ == '__main__':
-    data = crawler.scrape(links)
+    scrape_list = func(0,1, driver)
+    scrape(scrape_list, driver)
+
+
 
 
