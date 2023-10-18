@@ -27,7 +27,8 @@ def func(t):
             for i in range(2, 47):
                 try:
                     title = driver.find_element('xpath',
-                                                '//*[@id="container"]/section[1]/article[2]/div[2]/table/tbody/tr[{}]/td[3]/a[1]'.format(i)).text
+                                                '//*[@id="container"]/section[1]/article[2]/div[2]/table/tbody/tr[{}]/td[3]/a[1]'
+                                                .format(i)).text
                     # title = re.compile('').sub('', title))
 
                     titles.append(title)
@@ -54,7 +55,8 @@ if __name__ == '__main__':
     url = 'https://gall.dcinside.com/mgallery/board/lists/?id=mouse&sort_type=N&search_head=0&page=1'
 
     options = ChromeOptions()
-    user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36"
+    user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) "
+                  "Chrome/61.0.3163.100 Safari/537.36")
     options.add_argument('user-agent=' + user_agent)
     options.add_argument("lang=ko_KR")
 
