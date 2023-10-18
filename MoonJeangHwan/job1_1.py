@@ -6,7 +6,7 @@ import time
 import csv
 
 
-def func(category_num, page_num, driver):
+def func(category_num, page_num):
     pages = [page_num]
     category_list = [0, 330, 20, 340, 350]
     url_list=[]
@@ -16,7 +16,7 @@ def func(category_num, page_num, driver):
                  .format(category_list[category_num], k))
         driver.get(G_url)
         time.sleep(0.5)  # 페이지를 바꿀 시간을 줘야한다 없으면 에러가 발생할 수 있음.
-        for i in range(2,4):
+        for i in range(2,47):
             try:
                 title_element = driver.find_element('xpath', f'//*[@id="container"]'
                                                              f'/section[1]/article[2]/div[2]/table/tbody/tr[{i}]/td[3]/a[1]')
@@ -29,15 +29,15 @@ def func(category_num, page_num, driver):
                 time.sleep(1)  # 페이지 이동을 기다립니다.
             except Exception as e:
                 print(f"Error {i}: {str(e)}")
-    driver.quit()
-    return url_list
 
-def save_urls_to_csv(url_list, filename):
-    with open(filename, 'w', newline='') as csvfile:
-        csv_writer = csv.writer(csvfile)
-        csv_writer.writerow(['URL'])
-        for url in url_list:
-            csv_writer.writerow([url])
+            with open('url.csv', 'w', newline='') as csvfile:
+                csv_writer = csv.writer(csvfile)
+
+                # 리스트의 각 항목을 CSV 파일에 작성
+                for url in url_list:
+                    csv_writer.writerow([url])
+
+    return 0
 
 if __name__ == '__main__':
     url = 'https://gall.dcinside.com/mgallery/board/lists/?id=mouse&sort_type=N&search_head=0&page=1'
@@ -55,12 +55,9 @@ if __name__ == '__main__':
     driver = webdriver.Chrome(service=service, options=options)  # <- options로 변경
 
     category = ['Normal', 'News', 'Review', 'Tip', 'Mod']
-    url_list1 = func(0, 3, driver)
+    url_list1 = func(0, 1)
 
-    for i in url_list1:
-        print(i)
-
-
+func(0,2)
 
 
 
