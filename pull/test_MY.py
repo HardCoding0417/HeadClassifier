@@ -12,5 +12,5 @@ for path in data_path:
 print(df.head())
 print(df['말머리'].value_counts())
 df.info()
-df.to_csv('./crawling_data/dcinside_{}.csv'.format(
-    datetime.datetime.now().strftime('%Y%m%d')), index=False)
+df.to_csv('../crawling_data/dcinside_{}.csv'.format(
+    datetime.datetime.now().strftime('%Y%m%d')), index=False, encoding='UTF-8-sig')
