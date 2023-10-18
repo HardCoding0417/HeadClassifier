@@ -28,7 +28,7 @@ def func(category_num, page_num, driver):
                 time.sleep(1)  # 페이지 이동을 기다립니다.
             except Exception as e:
                 print(f"Error {i}: {str(e)}")
-
+    driver.quit()
     return url_list
 
 if __name__ == '__main__':
@@ -47,7 +47,7 @@ if __name__ == '__main__':
     driver = webdriver.Chrome(service=service, options=options)  # <- options로 변경
 
     category = ['Normal', 'News', 'Review', 'Tip', 'Mod']
-    url_list1 = func(0, 1)
+    url_list1 = func(0, 3, driver)
 
     for i in url_list1:
         print(i)

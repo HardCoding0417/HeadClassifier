@@ -40,7 +40,8 @@ def scrape(links, driver):
         dict_writer.writeheader()
         for gall_post in data:
             dict_writer.writerow(gall_post)
-    sleep(1)
+    sleep(2)
+    driver.quit()
 
 
 
@@ -50,8 +51,10 @@ if __name__ == '__main__':
     service = Service(executable_path=ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service)
     lis = ['https://gall.dcinside.com/mgallery/board/view/?id=mouse&no=654046&page=4',
-           'https://gall.dcinside.com/mgallery/board/view/?id=mouse&no=654019&page=4']
-    print(scrape(lis))
+           'https://gall.dcinside.com/mgallery/board/view/?id=mouse&no=654019&page=4',
+           'https://gall.dcinside.com/mgallery/board/view/?id=mouse&no=653912&page=13',
+            'https://gall.dcinside.com/mgallery/board/view/?id=mouse&no=653910&page=13']
+    print(scrape(lis, driver))
 
 
 # for i in range(1, 2):

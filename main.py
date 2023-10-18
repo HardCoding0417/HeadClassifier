@@ -14,7 +14,7 @@ service = Service(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service)
 
 if __name__ == '__main__':
-    scrape_list = func(0,1, driver)
+    scrape_list = func(0,3, driver)
     scrape(scrape_list, driver)
 
 
