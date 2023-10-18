@@ -11,21 +11,6 @@ from bs4 import BeautifulSoup
 
 
 
-url = 'https://gall.dcinside.com/mgallery/board/lists/?id=mouse&sort_type=N&search_head=0&page=1'
-
-options = ChromeOptions()
-user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36"
-options.add_argument('user-agent=' + user_agent)
-options.add_argument("lang=ko_KR")
-
-# 크롬 드라이버 최신 버전 설정
-service = ChromeService(executable_path=ChromeDriverManager().install())
-
-# chrome driver
-driver = webdriver.Chrome(service=service, options=options)  # <- options로 변경
-
-category = ['Normal', 'News', 'Review', 'Tip', 'Mod']
-
 
 def func(t):
     df_titles = pd.DataFrame()
@@ -64,7 +49,23 @@ def func(t):
 
     return 0
 
-func(0)
+
+if __name__ == '__main__':
+    url = 'https://gall.dcinside.com/mgallery/board/lists/?id=mouse&sort_type=N&search_head=0&page=1'
+
+    options = ChromeOptions()
+    user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36"
+    options.add_argument('user-agent=' + user_agent)
+    options.add_argument("lang=ko_KR")
+
+    # 크롬 드라이버 최신 버전 설정
+    service = ChromeService(executable_path=ChromeDriverManager().install())
+    # chrome driver
+    driver = webdriver.Chrome(service=service, options=options)  # <- options로 변경
+
+    category = ['Normal', 'News', 'Review', 'Tip', 'Mod']
+
+    func(0)
 
 
 
