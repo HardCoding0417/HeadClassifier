@@ -15,7 +15,9 @@ driver = webdriver.Chrome(service=service)
 
 if __name__ == '__main__':
     scrape_list = func(0,3, driver)
+    sleep(2)
     scrape(scrape_list, driver)
+    driver.quit()
 
 
 

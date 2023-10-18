@@ -41,7 +41,6 @@ def scrape(links, driver):
         for gall_post in data:
             dict_writer.writerow(gall_post)
     sleep(2)
-    driver.quit()
 
 
 
@@ -62,8 +61,4 @@ if __name__ == '__main__':
 #     page_source = driver.page_source
 #     soup = BeautifulSoup(page_source, 'html.parser')
 #     links = soup.select('a[href^="/mgallery/board/view/"]')
-#     for link in links:
-#         scrape(link)
-#         print(f'글 링크: {link}')
-#     sleep(0.5)
-#
+#     return links

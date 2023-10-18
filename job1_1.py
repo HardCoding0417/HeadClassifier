@@ -28,7 +28,6 @@ def func(category_num, page_num, driver):
                 time.sleep(1)  # 페이지 이동을 기다립니다.
             except Exception as e:
                 print(f"Error {i}: {str(e)}")
-    driver.quit()
     return url_list
 
 if __name__ == '__main__':
