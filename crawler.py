@@ -24,7 +24,7 @@ def scrape(links, driver):
         for gall_num, headtext, title, nickname, main_txt in zip(gall_num, headtext, title, nickname,main_txt):
             # mongoDB에도 적합하도록 딕셔너리 형태로 저장
             gall_post = {
-                '글 번호': gall_num.text,
+                # '글 번호': gall_num.text,
                 '말머리': headtext.text,
                 '제목': title.text,
                 '닉네임': nickname.text,
