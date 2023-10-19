@@ -8,9 +8,10 @@ from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.utils import to_categorical
 import pickle
 
+
 pd.set_option('display.unicode.east_asian_width', True)
 # 한국어 맞춤 글자 폭 으로 세팅
-df = pd.read_csv('../data/dcinside_20231018.csv') # 주석 바꿨음 ##
+df = pd.read_csv('../data/dcinside_20231018.csv')
 # test_MY에서 만든 csv파일을 읽음
 # print(df)
 # print("------------------------------")
@@ -69,9 +70,9 @@ for j in range(len(X)): # X는 본문 데이터프레임, 본문의 갯수만큼
         X[j] = ' '.join(words)
     except:
         print("error {}".format(j))
-for i in range(3):
-    print(X[i])
-    print('\n')
+# for i in range(3):
+#     print(X[i])
+#     print('\n')
 
     # 오류 잡음
 X = [str(x) for x in X]
@@ -92,7 +93,7 @@ for i in range(len(tokened_x)):
         max = len(tokened_x[i])
 print(max, "맥스사이즈입니다.") # 990
 
-x_pad = pad_sequences(tokened_x, max) # 문장을 주고, 길이를 주면 모자란 갯수만큼 0을 채워줌
+x_pad = pad_sequences(tokened_x, max, padding='post', truncating='post') # 문장을 주고, 길이를 주면 모자란 갯수만큼 0을 채워줌
 print(x_pad[:])
 
 X_train, X_test, Y_train, Y_test = train_test_split(
@@ -101,5 +102,5 @@ print(X_train.shape, Y_train.shape)
 print(X_test.shape, Y_test.shape)
 
 xy = X_train, X_test, Y_train, Y_test
-np.save('../crawling_data/dcinside_data_max_{}_wordsize_{}'.format(max, wordsize), xy,
-        allow_pickle=True)
+# np.save('../crawling_data/dcinside_data_max_{}_wordsize_{}'.format(max, wordsize), xy)
+
