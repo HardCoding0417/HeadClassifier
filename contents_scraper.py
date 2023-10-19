@@ -3,10 +3,29 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 import csv
-
 import pandas as pd
 import datetime
 from time import sleep
+
+# 중복 체크를 위한 함수
+def checker(csv_files):
+    first_page = float('inf')
+    last_page = 0
+
+    # csv파일들을 불러와서 파이썬 리스트화
+    all_urls = []
+    for csv_file in csv_files:
+        df = pd.read_csv(csv_file)
+        urls = df['URL'].tolist()
+        all_urls.extend(urls)
+
+    # 글 번호를 추출해서 제일 작은 번호와 큰 번호를 반환
+    for url in all_urls:
+        page_num = int(url.split('page=')[-1])
+        first_page = min(first_page, page_num)
+        last_page = max(last_page, page_num)
+
+    return first_page, last_page
 
 def scrape(links, driver):
     data = []
@@ -44,6 +63,7 @@ def scrape(links, driver):
         dict_writer.writeheader()
         for gall_post in data:
             dict_writer.writerow(gall_post)
+
 
 
 
