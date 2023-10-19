@@ -10,7 +10,7 @@ import pickle
 
 pd.set_option('display.unicode.east_asian_width', True)
 # 한국어 맞춤 글자 폭 으로 세팅
-# df = pd.read_csv('../crawling_data/dcinside_20231019.csv') # 주석 바꿨음
+# df = pd.read_csv('../crawling_data/dcinside_20231019.csv') # 주석 바꿨음 ##
 # test_MY에서 만든 csv파일을 읽음
 # print(df)
 # print("------------------------------")
