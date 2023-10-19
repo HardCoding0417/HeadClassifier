@@ -4,18 +4,32 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 import csv
 import pandas as pd
-import datetime
 from time import sleep
+import os
 
-def scrape(links, driver):
+# 중복방지
+def load_scraped_links(file_path):
+    scraped_links = set()
+    if os.path.exists(file_path):
+        with open(file_path, 'r', encoding='UTF-8-sig') as f:
+            csv_reader = csv.DictReader(f)
+            for row in csv_reader:
+                scraped_links.add(row['글 링크'])
+    return scraped_links
+
+def scrape(links, driver, scraped_links, file_path):
     data = []
 
     # 링크 리스트를 순회하며 파싱. text를 따옴
     for link in links[1:]:
+        if link in scraped_links:
+            print(f"{link}은(는) 이미 스크래핑되었습니다.")
+            continue
         try:
-            driver.get('https://gall.dcinside.com/'+ link)
+            driver.get('https://gall.dcinside.com/' + link)
         except:
             print("링크에 접속하지 못했습니다.")
+            continue
         sleep(2)
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         gall_num = soup.select('td.gall_num')
@@ -35,20 +49,18 @@ def scrape(links, driver):
                 '글 링크': link
             }
             data.append(gall_post)
+        scraped_links.add(link)
 
         # csv로 저장
         if len(data) > 0:
             keys = data[0].keys()
+            with open(file_path, 'w', newline='', encoding='UTF-8-sig') as output_file:
+                dict_writer = csv.DictWriter(output_file, fieldnames=keys)
+                dict_writer.writeheader()
+                for gall_post in data:
+                    dict_writer.writerow(gall_post)
         else:
             print("No data to write")
-            return
-        with open('MoonJeangHwan/data.csv', 'w', newline='', encoding='UTF-8-sig') as output_file:
-            dict_writer = csv.DictWriter(output_file, fieldnames=keys)
-            dict_writer.writeheader()
-            for gall_post in data:
-                dict_writer.writerow(gall_post)
-
-
 
 
 if __name__ == '__main__':
@@ -61,10 +73,3 @@ if __name__ == '__main__':
            'https://gall.dcinside.com/mgallery/board/view/?id=mouse&no=654548&page=1']
     print(scrape(lis, driver))
 
-
-# for i in range(1, 2):
-#     driver.get('https://gall.dcinside.com/mgallery/board/lists/?id=mouse&page={}'.format(i))
-#     page_source = driver.page_source
-#     soup = BeautifulSoup(page_source, 'html.parser')
-#     links = soup.select('a[href^="/mgallery/board/view/"]')
-#     return links

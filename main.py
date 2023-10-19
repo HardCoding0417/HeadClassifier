@@ -6,6 +6,7 @@ import pandas as pd
 import datetime
 from time import sleep
 from contents_scraper import scrape
+from contents_scraper import load_scraped_links
 import csv
 
 
@@ -19,8 +20,10 @@ with open('data/urls.csv', 'r', encoding='UTF-8-sig') as csvfile:
     for url_list in csvfile:
         url_lists.append(url_list)
 
+file_path = load_scraped_links('MoonJeangHwan/data.csv')
+
 if __name__ == '__main__':
-    scrape(url_lists, driver)
+    scrape(url_lists, driver, scraped_links=file_path, file_path='MoonJeangHwan/data.csv')
     driver.quit()
 
 
