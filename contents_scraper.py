@@ -7,7 +7,7 @@ import pandas as pd
 from time import sleep
 import os
 
-# 중복방지
+# 중복방지를 체크하는 함수
 def load_scraped_links(file_path):
     scraped_links = set()
     if os.path.exists(file_path):
