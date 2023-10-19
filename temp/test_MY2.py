@@ -8,6 +8,28 @@ from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.utils import to_categorical
 import pickle
 
+
+
+# 중복 체크를 위한 함수
+def check_page_parameter(csv_files):
+    first_page = float('inf')
+    last_page = 0
+
+    # csv파일들을 불러와서 파이썬 리스트화
+    all_urls = []
+    for csv_file in csv_files:
+        df = pd.read_csv(csv_file)
+        urls = df['URL'].tolist()
+        all_urls.extend(urls)
+
+    # 글 번호를 추출해서 제일 작은 번호와 큰 번호를 반환
+    for url in all_urls:
+        page_num = int(url.split('page=')[-1])
+        first_page = min(first_page, page_num)
+        last_page = max(last_page, page_num)
+
+    return first_page, last_page
+
 pd.set_option('display.unicode.east_asian_width', True)
 # 한국어 맞춤 글자 폭 으로 세팅
 df = pd.read_csv('../data/dcinside_20231018.csv')

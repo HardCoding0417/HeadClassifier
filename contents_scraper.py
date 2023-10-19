@@ -7,35 +7,13 @@ import pandas as pd
 import datetime
 from time import sleep
 
-# 중복 체크를 위한 함수
-def check_page_parameter(csv_files):
-    first_page = float('inf')
-    last_page = 0
-
-    # csv파일들을 불러와서 파이썬 리스트화
-    all_urls = []
-    for csv_file in csv_files:
-        df = pd.read_csv(csv_file)
-        urls = df['URL'].tolist()
-        all_urls.extend(urls)
-
-    # 글 번호를 추출해서 제일 작은 번호와 큰 번호를 반환
-    for url in all_urls:
-        page_num = int(url.split('page=')[-1])
-        first_page = min(first_page, page_num)
-        last_page = max(last_page, page_num)
-
-    return first_page, last_page
-
-
-
 def scrape(links, driver):
     data = []
 
     # 링크 리스트를 순회하며 파싱. text를 따옴
-    for link in links:
+    for link in links[1:]:
         try:
-            driver.get(link)
+            driver.get('https://gall.dcinside.com/'+ link)
         except:
             print("링크에 접속하지 못했습니다.")
         sleep(2)
@@ -58,13 +36,17 @@ def scrape(links, driver):
             }
             data.append(gall_post)
 
-    # csv로 저장
-    keys = data[0].keys()
-    with open('MoonJeangHwan/data.csv', 'w', newline='', encoding='UTF-8-sig') as output_file:
-        dict_writer = csv.DictWriter(output_file, fieldnames=keys)
-        dict_writer.writeheader()
-        for gall_post in data:
-            dict_writer.writerow(gall_post)
+        # csv로 저장
+        if len(data) > 0:
+            keys = data[0].keys()
+        else:
+            print("No data to write")
+            return
+        with open('MoonJeangHwan/data.csv', 'w', newline='', encoding='UTF-8-sig') as output_file:
+            dict_writer = csv.DictWriter(output_file, fieldnames=keys)
+            dict_writer.writeheader()
+            for gall_post in data:
+                dict_writer.writerow(gall_post)
 
 
 

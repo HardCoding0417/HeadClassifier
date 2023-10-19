@@ -15,7 +15,7 @@ service = Service(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service)
 
 url_lists = []
-with open('data/url_Mod.csv', 'r', encoding='UTF-8-sig') as csvfile:
+with open('data/urls.csv', 'r', encoding='UTF-8-sig') as csvfile:
     for url_list in csvfile:
         url_lists.append(url_list)
 
