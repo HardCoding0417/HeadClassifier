@@ -8,7 +8,7 @@ import datetime
 from time import sleep
 
 # 중복 체크를 위한 함수
-def checker(csv_files):
+def check_page_parameter(csv_files):
     first_page = float('inf')
     last_page = 0
 
@@ -26,6 +26,8 @@ def checker(csv_files):
         last_page = max(last_page, page_num)
 
     return first_page, last_page
+
+
 
 def scrape(links, driver):
     data = []

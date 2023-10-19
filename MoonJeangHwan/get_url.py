@@ -36,7 +36,6 @@ def url_collector(category_num, page_num, start=1):
         # CSV 파일로 저장
         df.to_csv(f"../data/url_all.csv", index=False)
 
-
 user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) "
               "Chrome/61.0.3163.100 Safari/537.36")
 options = ChromeOptions()
