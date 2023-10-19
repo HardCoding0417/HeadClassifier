@@ -5,7 +5,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 import datetime
 from time import sleep
-from crawler import scrape
+from contents_scraper import scrape
 import csv
 
 
@@ -15,7 +15,7 @@ service = Service(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service)
 
 url_lists = []
-with open('url_Mod.csv', 'r', encoding='UTF-8-sig') as csvfile:
+with open('data/url_Mod.csv', 'r', encoding='UTF-8-sig') as csvfile:
     for url_list in csvfile:
         url_lists.append(url_list)
 
