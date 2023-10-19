@@ -54,7 +54,7 @@ def scrape(links, driver, scraped_links, file_path):
         # csv로 저장
         if len(data) > 0:
             keys = data[0].keys()
-            with open(file_path, 'w', newline='', encoding='UTF-8-sig') as output_file:
+            with open(file_path, 'a', newline='', encoding='UTF-8-sig') as output_file:
                 dict_writer = csv.DictWriter(output_file, fieldnames=keys)
                 dict_writer.writeheader()
                 for gall_post in data:
