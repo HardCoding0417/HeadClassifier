@@ -4,12 +4,12 @@ from tensorflow.keras.models import *
 from tensorflow.keras.layers import *
 
 X_train, X_test, Y_train, Y_test = np.load(
-    './crawling_data/dcinside_data_max_990_wordsize_13270.npy', allow_pickle=True)
+    './crawling_data/dcinside_data_max_11_wordsize_2508.npy', allow_pickle=True)
 print(X_train.shape, Y_train.shape)
 print(X_test.shape, Y_test.shape)
 
 model = Sequential()
-model.add(Embedding(13270, 300, input_length=990)) # 자연어 학습할 때 중요한 레이어
+model.add(Embedding(2508, 300, input_length=11)) # 자연어 학습할 때 중요한 레이어
 # 단어들을 단어 갯수만큼의 차원을 가지는 공간상의 배치, 300은 차원 축소
 model.add(Conv1D(32, kernel_size=5, padding='same', activation='relu'))
 # 문장은 한줄 1차원이니까 1D를 씀, 필터 32개
