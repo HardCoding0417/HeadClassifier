@@ -4,7 +4,7 @@ from konlpy.tag import Okt
 from sklearn.preprocessing import LabelEncoder
 
 # 데이터들을 로딩
-datasets = glob.glob('../MoonJeangHwan/data.csv')
+datasets = glob.glob('data2.csv')
 
 # 데이터들을 하나로 합침
 data_list = []

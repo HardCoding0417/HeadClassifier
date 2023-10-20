@@ -11,7 +11,7 @@ import pickle
 pd.set_option('display.unicode.east_asian_width', True)
 # 한국어 맞춤 글자 폭 으로 세팅
 
-df = pd.read_csv('../data.csv')
+df = pd.read_csv('../data2.csv')
 X = df['text']    # okt객체로 만들어서 형태소 분리해야 할 내용
 Y = df['category']   # 카테고리
 

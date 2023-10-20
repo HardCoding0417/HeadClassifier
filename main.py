@@ -15,16 +15,18 @@ user_agent = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKi
 service = Service(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service)
 
-url_lists = []
+url_list = []
 with open('data/urls.csv', 'r', encoding='UTF-8-sig') as csvfile:
-    for url_list in csvfile:
-        url_lists.append(url_list)
+    for url in csvfile:
+        url_list.append(url)
 
-file_path = load_scraped_links('MoonJeangHwan/data.csv')
+input_file_path = load_scraped_links('MoonJeangHwan/data1.csv')
 
 if __name__ == '__main__':
-    scrape(url_lists, driver, scraped_links=file_path, file_path='MoonJeangHwan/data.csv')
+    # def scrape(links, driver, scraped_links, save_path):
+    scrape(url_list, driver, scraped_links=input_file_path, save_path='MoonJeangHwan/data1.csv')
     driver.quit()
+
 
 
 

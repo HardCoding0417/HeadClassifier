@@ -17,11 +17,13 @@ def load_scraped_links(file_path):
                 scraped_links.add(row['글 링크'])
     return scraped_links
 
-def scrape(links, driver, scraped_links, file_path):
-    data = []
+def scrape(links, driver, scraped_links, save_path):
+
+    file_exists = os.path.exists(save_path)  # 파일이 존재하는지 체크
 
     # 링크 리스트를 순회하며 파싱. text를 따옴
     for link in links[1:]:
+        data = []
         if link in scraped_links:
             print(f"{link}은(는) 이미 스크래핑되었습니다.")
             continue
@@ -54,9 +56,12 @@ def scrape(links, driver, scraped_links, file_path):
         # csv로 저장
         if len(data) > 0:
             keys = data[0].keys()
-            with open(file_path, 'a', newline='', encoding='UTF-8-sig') as output_file:
+            with open(save_path, 'a', newline='', encoding='UTF-8-sig') as output_file:
                 dict_writer = csv.DictWriter(output_file, fieldnames=keys)
-                dict_writer.writeheader()
+                # 파일이 존재하지 않을 때만 헤더를 씀
+                if not file_exists:
+                    dict_writer.writeheader()
+
                 for gall_post in data:
                     dict_writer.writerow(gall_post)
         else:
