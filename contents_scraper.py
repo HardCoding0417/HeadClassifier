@@ -3,12 +3,11 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 import csv
-from selenium.common.exceptions import TimeoutException
 from time import sleep
 import os
 import threading
 
-# get 10초 이상 막히면 종료
+# get 10초 이상 막히면 False를 반환
 def get_with_timeout(driver, url, timeout=10):
     def load_url():
         driver.get(url)
@@ -18,8 +17,7 @@ def get_with_timeout(driver, url, timeout=10):
     thread.join(timeout=timeout)
 
     if thread.is_alive():
-        print(f"Timeout reached for URL {url}")
-        thread.join()  # Thread가 끝날 때까지 기다린 후 리소스를 해제합니다.
+        print(f"get작업이 10초 이상 지연되고 있습니다 {url}")
         return False
 
     return True
@@ -45,17 +43,12 @@ def scrape(links, driver, scraped_links, save_path):
             print(f"{link}은(는) 이미 스크래핑되었습니다.")
             continue
 
-        succeeded = get_with_timeout(driver, 'https://gall.dcinside.com/' + link, timeout=10)
-
-        if not succeeded:
+        result = get_with_timeout(driver, 'https://gall.dcinside.com/' + link, timeout=10)
+        if not result is True:
             print(f"링크 {link}에 접속하는 데 10초 이상 소요되었습니다.")
-            failed_count += 1
+            driver.quit()
 
-            if failed_count > 10:
-                print("링크 접속에 10번 이상 실패했습니다. 드라이버를 종료합니다.")
-                driver.quit()
-                return
-        sleep(1)
+        sleep(2)
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         gall_num = soup.select('td.gall_num')
         headtext = soup.select('span.title_headtext')

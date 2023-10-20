@@ -1,4 +1,3 @@
-from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -22,6 +21,7 @@ if __name__ == '__main__':
     # def scrape(links, driver, scraped_links, save_path):
     for i in range(10):
         scrape(url_list, driver, scraped_links=input_file_path, save_path='data/data.csv')
+
 
 
 
