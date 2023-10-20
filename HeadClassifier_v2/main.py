@@ -20,11 +20,11 @@ with open('data/urls.csv', 'r', encoding='UTF-8-sig') as csvfile:
     for url in csvfile:
         url_list.append(url)
 
-input_file_path = load_scraped_links('MoonJeangHwan/data1.csv')
+input_file_path = load_scraped_links('data1.csv')
 
 if __name__ == '__main__':
     # def scrape(links, driver, scraped_links, save_path):
-    scrape(url_list, driver, scraped_links=input_file_path, save_path='MoonJeangHwan/data1.csv')
+    scrape(url_list, driver, scraped_links=input_file_path, save_path='data/data.csv')
     driver.quit()
 
 
