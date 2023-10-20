@@ -10,7 +10,6 @@ import glob
 from datetime import datetime
 
 
-
 def extract_post_number(url):
     # 정규 표현식을 사용하여 글 번호 추출
     match = re.search(r'no=(\d+)', url)
@@ -18,7 +17,7 @@ def extract_post_number(url):
         return match.group(1)
     return None
 
-def url_collector(category_num, page_num, start_page=1, collected_post_numbers=set()):
+def url_collector(category_num, page_num, start_page=1, collected_post_numbers=set(), save_path='data/urls.csv'):
     # param: 카테고리 번호, 페이지 번호, 이미 수집한 urls 파이썬 리스트(중복체크용)
     # csv를 읽어서 toset()를 사용해 파이썬 set화 시킨 뒤 collected_urls로 전달해줘야함
     pages = [page_num]
@@ -61,7 +60,7 @@ def url_collector(category_num, page_num, start_page=1, collected_post_numbers=s
         # DataFrame 생성
         df = pd.DataFrame(final_urls, columns=['URL'])
         # CSV 파일로 저장
-        df.to_csv(f"data/urls.csv", index=False)
+        df.to_csv(f"data/urls_{save_path}.csv", index=False)
 
 
 

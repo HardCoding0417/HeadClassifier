@@ -3,9 +3,26 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 import csv
-import pandas as pd
+from selenium.common.exceptions import TimeoutException
 from time import sleep
 import os
+import threading
+
+# get 10초 이상 막히면 종료
+def get_with_timeout(driver, url, timeout=10):
+    def load_url():
+        driver.get(url)
+
+    thread = threading.Thread(target=load_url)
+    thread.start()
+    thread.join(timeout=timeout)
+
+    if thread.is_alive():
+        print(f"Timeout reached for URL {url}")
+        thread.join()  # Thread가 끝날 때까지 기다린 후 리소스를 해제합니다.
+        return False
+
+    return True
 
 # 중복방지를 체크하는 함수
 def load_scraped_links(file_path):
@@ -18,7 +35,7 @@ def load_scraped_links(file_path):
     return scraped_links
 
 def scrape(links, driver, scraped_links, save_path):
-
+    failed_count = 0
     file_exists = os.path.exists(save_path)  # 파일이 존재하는지 체크
 
     # 링크 리스트를 순회하며 파싱. text를 따옴
@@ -27,12 +44,18 @@ def scrape(links, driver, scraped_links, save_path):
         if link in scraped_links:
             print(f"{link}은(는) 이미 스크래핑되었습니다.")
             continue
-        try:
-            driver.get('https://gall.dcinside.com/' + link)
-        except:
-            print("링크에 접속하지 못했습니다.")
-            continue
-        sleep(2)
+
+        succeeded = get_with_timeout(driver, 'https://gall.dcinside.com/' + link, timeout=10)
+
+        if not succeeded:
+            print(f"링크 {link}에 접속하는 데 10초 이상 소요되었습니다.")
+            failed_count += 1
+
+            if failed_count > 10:
+                print("링크 접속에 10번 이상 실패했습니다. 드라이버를 종료합니다.")
+                driver.quit()
+                return
+        sleep(1)
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         gall_num = soup.select('td.gall_num')
         headtext = soup.select('span.title_headtext')
