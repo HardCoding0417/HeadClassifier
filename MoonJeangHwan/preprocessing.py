@@ -4,7 +4,7 @@ from konlpy.tag import Okt
 from sklearn.preprocessing import LabelEncoder
 
 # 데이터들을 로딩
-datasets = glob.glob('data2.csv')
+datasets = glob.glob('data/data.csv')
 
 # 데이터들을 하나로 합침
 data_list = []
@@ -30,7 +30,7 @@ okt = Okt()
 for i in range(len(data['나머지'])):
     data.at[i, '나머지'] = okt.morphs(data.at[i, '나머지']) # 더 효율적인 코드 data['나머지'] = data['나머지'].apply(lambda x: okt.morphs(x))
 
-stopwords = pd.read_csv('../data/stopwords.csv', index_col = 0)
+stopwords = pd.read_csv('data/stopwords.csv', index_col = 0)
 for i in range(len(data['나머지'])): # 나머지에 들어있는 각 문장마다
     print("Original:", data.at[i, '나머지'])
     words = []
