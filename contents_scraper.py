@@ -33,9 +33,8 @@ def load_scraped_links(file_path):
     return scraped_links
 
 def scrape(links, driver, scraped_links, save_path):
-    failed_count = 0
     file_exists = os.path.exists(save_path)  # 파일이 존재하는지 체크
-
+    count = 0
     # 링크 리스트를 순회하며 파싱. text를 따옴
     for link in links[1:]:
         data = []
@@ -67,6 +66,8 @@ def scrape(links, driver, scraped_links, save_path):
                 '글 링크': link
             }
             data.append(gall_post)
+            count += 1
+            print(count, "번 째 데이터를 수집하였습니다:", gall_post['제목'])
         scraped_links.add(link)
 
         # csv로 저장
@@ -82,6 +83,8 @@ def scrape(links, driver, scraped_links, save_path):
                     dict_writer.writerow(gall_post)
         else:
             print("No data to write")
+
+
 
 
 if __name__ == '__main__':
